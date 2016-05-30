@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">giphy-rxjava-mvp</string>
+    <string name="trending_empty_state">No gifs :( Swipe to refresh!</string>
+    <string name="trending_refresh_gifs_failed">Refreshing gifs failed</string>
+    <string name="trending_incremental_error">Failed to retrieve latest trending gifs</string>
+</resources>
