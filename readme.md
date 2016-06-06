@@ -55,8 +55,8 @@ The interface exposes:
     - we subscribe to each of these in the `Presenter`'s one lifecycle method, `onViewAttached`
     - each subscription is added to a `CompositeSubscription` via the method `unsubscribeOnViewDetach`, which will unsubscribe from all subscriptions when the view is detached
     - we limit what the `Presenter` is exposed to by using a return type of `Observable<Void>`, often it's enough just to know the action has happened
-- actions which immediately update the view with a simple operation e.g. show or hide a progress bar (method name will usually starts with `show`/`hide`), or methods which `set` data/state 
-- actions that start another Activity (prefixed with `goTo` e.g. `goToGif`)
+ - actions which immediately update the view with a simple operation e.g. show or hide a progress bar (method name will usually starts with `show`/`hide`), or methods which `set` data/state 
+ - actions that start another Activity (prefixed with `goTo` e.g. `goToGif`)
 
 ## Separating loading state from data availability 
 
