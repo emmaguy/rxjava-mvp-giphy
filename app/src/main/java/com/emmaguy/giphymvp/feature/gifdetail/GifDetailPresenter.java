@@ -9,7 +9,7 @@ import com.emmaguy.giphymvp.feature.trending.api.Gif;
 class GifDetailPresenter extends BasePresenter<GifDetailPresenter.View> {
     private final Gif gif;
 
-    public GifDetailPresenter(@NonNull final Gif gif) {
+    GifDetailPresenter(@NonNull final Gif gif) {
         this.gif = gif;
     }
 
