@@ -50,16 +50,16 @@ class TrendingNetworkManager {
         subscription.add(result.filter(Results.isSuccessful())
                 .map(listResult -> listResult.response().body().gifs())
                 .doOnNext(trendingGifsRelay::call)
-                .subscribe(ignored -> loadingStateRelay.call(LoadingState.IDLE),
-                        throwable -> Log.e("TrendingNetworkManager",
-                                "Failed to parse and show latest trending gifs",
-                                throwable)));
+                .subscribe(
+                        ignored -> loadingStateRelay.call(LoadingState.IDLE),
+                        e -> Log.e("TrendingNetworkManager",
+                                "Failed to parse and show latest trending GIFs", e)));
 
         subscription.add(result.filter(Funcs.not(Results.isSuccessful()))
-                .subscribe(ignored -> loadingStateRelay.call(LoadingState.ERROR),
-                        throwable -> Log.e("TrendingNetworkManager",
-                                "Failed to retrieve latest trending gifs",
-                                throwable)));
+                .subscribe(
+                        ignored -> loadingStateRelay.call(LoadingState.ERROR),
+                        e -> Log.e("TrendingNetworkManager",
+                                "Failed to retrieve latest trending GIFs", e)));
     }
 
     void refresh() {
