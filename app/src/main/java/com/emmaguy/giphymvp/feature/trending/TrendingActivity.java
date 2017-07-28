@@ -113,6 +113,10 @@ public class TrendingActivity extends BaseActivity<TrendingPresenter.View, Trend
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    @Override public void setIncrementalLoadingEnabled(boolean enabled) {
+        swipeRefreshLayout.setEnabled(enabled);
+    }
+
     @Override public void goToGif(@NonNull final Gif gif) {
         GifDetailActivity.start(this, gif);
     }

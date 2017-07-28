@@ -44,12 +44,15 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
                     if (loadingState == LOADING) {
                         if (data == null) {
                             view.showLoading();
+                            view.setIncrementalLoadingEnabled(false);
                         } else {
                             view.showIncrementalLoading();
                         }
                     } else {
+                        // Have data or error
                         view.hideLoading();
                         view.hideIncrementalLoading();
+                        view.setIncrementalLoadingEnabled(true);
 
                         if (loadingState == IDLE) {
                             if (data == null) {
@@ -98,6 +101,8 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
 
         void showIncrementalLoading();
         void hideIncrementalLoading();
+        /** Useful to disable pull-to-refresh during initial data fetch. */
+        void setIncrementalLoadingEnabled(boolean enabled);
 
         void goToGif(@NonNull final Gif gif);
     }
