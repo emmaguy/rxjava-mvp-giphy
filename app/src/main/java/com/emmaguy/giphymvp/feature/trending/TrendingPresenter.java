@@ -65,12 +65,13 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
                             }
                         }
                     }
-                }, throwable -> Log.e("TrendingPresenter", "Failed to update UI")));
+                }, e -> Log.e("TrendingPresenter", "Failed to update UI", e)));
 
         addToAutoUnsubscribe(view.onRefreshAction()
                 .startWith(Observable.just(null))
-                .subscribe(ignored -> trendingNetworkManager.refresh(),
-                        throwable -> Log.e("TrendingPresenter", "Failed to refresh")));
+                .subscribe(
+                        ignored -> trendingNetworkManager.refresh(),
+                        e -> Log.e("TrendingPresenter", "Failed to refresh", e)));
 
         addToAutoUnsubscribe(view.onGifClicked().subscribe(view::goToGif));
     }
