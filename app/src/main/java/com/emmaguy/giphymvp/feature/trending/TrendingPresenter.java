@@ -33,6 +33,8 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
 
         trendingNetworkManager.setup();
 
+        view.showLoading();
+
         addToAutoUnsubscribe(Observable.combineLatest(trendingNetworkManager.onLoadingStateChanged(),
                 trendingNetworkManager.onDataChanged().startWith(Observable.just(null)),
                 LoadingStateWithData::create)
@@ -42,12 +44,9 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
                     final List<Gif> data = loadingStateWithData.trendingGifs();
 
                     if (loadingState == LOADING) {
-                        if (data == null) {
-                            view.showLoading();
-                        } else {
-                            view.showIncrementalLoading();
-                        }
+                        // Do nothing, we've shown the loading indicator before doing the request
                     } else {
+                        // Have data or error
                         view.hideLoading();
                         view.hideIncrementalLoading();
 
@@ -96,7 +95,7 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
         void showLoading();
         void hideLoading();
 
-        void showIncrementalLoading();
+        // No need to show incremental loading, this is done automatically by the Android UI
         void hideIncrementalLoading();
 
         void goToGif(@NonNull final Gif gif);

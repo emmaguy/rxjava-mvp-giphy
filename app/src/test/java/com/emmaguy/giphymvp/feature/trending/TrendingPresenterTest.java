@@ -78,15 +78,6 @@ public class TrendingPresenterTest
         verify(view).showLoading();
     }
 
-    @Test public void onLoadingStateChanged_withData_showIncrementalLoading() throws Exception {
-        presenterOnViewAttached();
-
-        dataChangedRelay.call(Collections.singletonList(mock(Gif.class)));
-        loadingStateChangedRelay.call(LoadingState.LOADING);
-
-        verify(view).showIncrementalLoading();
-    }
-
     @Test public void onLoadingStateChanged_noData_idleAfterLoading_hideLoading() throws Exception {
         presenterOnViewAttached();
 
