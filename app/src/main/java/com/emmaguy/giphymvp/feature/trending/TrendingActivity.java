@@ -101,6 +101,7 @@ public class TrendingActivity extends BaseActivity<TrendingPresenter.View, Trend
 
     @Override
     public void hideLoading() {
+        swipeRefreshLayout.setRefreshing(false);
         loadingProgressBar.setVisibility(View.GONE);
     }
 
