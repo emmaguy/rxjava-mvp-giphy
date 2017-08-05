@@ -1,9 +1,9 @@
 package com.emmaguy.giphymvp.feature.trending.api;
 
+import io.reactivex.Single;
 import retrofit2.http.GET;
-import rx.Observable;
 
 public interface GiphyApi {
     @GET("v1/gifs/trending?api_key=dc6zaTOxFJmzC&rating=g&limit=50")
-    Observable<TrendingGifsResponse> latestTrendingGifs();
+    Single<TrendingGifsResponse> latestTrendingGifs();
 }

@@ -2,11 +2,11 @@ package com.emmaguy.giphymvp.common.base;
 
 import android.support.annotation.CallSuper;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public class BasePresenter<V extends PresenterView> {
-    private final CompositeSubscription compositeSubscription = new CompositeSubscription();
+    private final CompositeDisposable disposables = new CompositeDisposable();
     private V view;
 
     @CallSuper
@@ -23,11 +23,11 @@ public class BasePresenter<V extends PresenterView> {
             throw new IllegalStateException("View is already detached");
         }
         view = null;
-        compositeSubscription.clear();
+        disposables.clear();
     }
 
     @CallSuper
-    protected final void addToAutoUnsubscribe(Subscription subscription) {
-        compositeSubscription.add(subscription);
+    protected final void addToAutoUnsubscribe(Disposable subscription) {
+        disposables.add(subscription);
     }
 }

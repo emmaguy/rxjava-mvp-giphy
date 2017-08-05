@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.emmaguy.giphymvp.R;
 import com.emmaguy.giphymvp.feature.trending.api.Gif;
-import com.jakewharton.rxrelay.PublishRelay;
+import com.jakewharton.rxrelay2.PublishRelay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.TrendingGifVi
 
         @OnClick(R.id.item_trending_gif_imageview)
         void onGifClicked() {
-            gifClickedRelay.call(gifList.get(getAdapterPosition()));
+            gifClickedRelay.accept(gifList.get(getAdapterPosition()));
         }
     }
 }

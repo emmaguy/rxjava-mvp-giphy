@@ -12,21 +12,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.emmaguy.giphymvp.R;
+import com.emmaguy.giphymvp.common.Event;
 import com.emmaguy.giphymvp.common.base.BaseActivity;
 import com.emmaguy.giphymvp.common.base.BasePresenter;
 import com.emmaguy.giphymvp.feature.gifdetail.GifDetailActivity;
 import com.emmaguy.giphymvp.feature.trending.api.Gif;
-import com.jakewharton.rxrelay.PublishRelay;
+import com.jakewharton.rxrelay2.PublishRelay;
 
 import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindInt;
 import butterknife.BindView;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public class TrendingActivity extends BaseActivity<TrendingPresenter.View, TrendingComponent> implements TrendingPresenter.View {
-    private final PublishRelay<Void> refreshRelay = PublishRelay.create();
+    private final PublishRelay<Object> refreshRelay = PublishRelay.create();
     private final PublishRelay<Gif> gifClickedRelay = PublishRelay.create();
 
     @BindView(R.id.trending_root_viewgroup) ViewGroup rootViewGroup;
@@ -74,7 +75,7 @@ public class TrendingActivity extends BaseActivity<TrendingPresenter.View, Trend
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
         swipeRefreshLayout.setColorSchemeColors(accent);
-        swipeRefreshLayout.setOnRefreshListener(() -> refreshRelay.call(null));
+        swipeRefreshLayout.setOnRefreshListener(() -> refreshRelay.accept(Event.IGNORE));
     }
 
     @Override
@@ -83,7 +84,7 @@ public class TrendingActivity extends BaseActivity<TrendingPresenter.View, Trend
     }
 
     @Override
-    public Observable<Void> onRefreshAction() {
+    public Observable<Object> onRefreshAction() {
         return refreshRelay;
     }
 

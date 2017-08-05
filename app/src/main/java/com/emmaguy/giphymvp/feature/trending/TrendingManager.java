@@ -2,7 +2,7 @@ package com.emmaguy.giphymvp.feature.trending;
 
 import com.emmaguy.giphymvp.feature.trending.api.GiphyApi;
 
-import rx.Observable;
+import io.reactivex.Single;
 
 class TrendingManager {
     private final GiphyApi giphyApi;
@@ -11,9 +11,9 @@ class TrendingManager {
         this.giphyApi = giphyApi;
     }
 
-    Observable<TrendingGifsModel> getTrendingGifs() {
+    Single<TrendingGifsModel> getTrendingGifs() {
         return giphyApi.latestTrendingGifs()
                 .map(result -> TrendingGifsModel.success(result.gifs()))
-                .onErrorResumeNext(throwable -> Observable.just(TrendingGifsModel.failure()));
+                .onErrorResumeNext(throwable -> Single.just(TrendingGifsModel.failure()));
     }
 }

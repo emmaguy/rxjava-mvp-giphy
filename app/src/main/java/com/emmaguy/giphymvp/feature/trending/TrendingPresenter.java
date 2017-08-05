@@ -2,14 +2,15 @@ package com.emmaguy.giphymvp.feature.trending;
 
 import android.util.Log;
 
+import com.emmaguy.giphymvp.common.Event;
 import com.emmaguy.giphymvp.common.base.BasePresenter;
 import com.emmaguy.giphymvp.common.base.PresenterView;
 import com.emmaguy.giphymvp.feature.trending.api.Gif;
 
 import java.util.List;
 
-import rx.Observable;
-import rx.Scheduler;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 
 class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
     private final TrendingManager trendingManager;
@@ -27,9 +28,9 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
         super.onViewAttached(view);
 
         addToAutoUnsubscribe(view.onRefreshAction()
-                .startWith((Void) null)
+                .startWith(Event.IGNORE)
                 .doOnNext(ignored -> view.showLoading())
-                .switchMap(ignored -> trendingManager.getTrendingGifs()
+                .flatMapSingle(ignored -> trendingManager.getTrendingGifs()
                         .subscribeOn(ioScheduler))
                 .observeOn(uiScheduler)
                 .doOnNext(ignored -> view.hideLoading())
@@ -45,7 +46,7 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
     }
 
     interface View extends PresenterView {
-        Observable<Void> onRefreshAction();
+        Observable<Object> onRefreshAction();
         Observable<Gif> onGifClicked();
 
         void showTrendingGifs(List<Gif> gifs);

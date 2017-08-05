@@ -2,7 +2,7 @@ package com.emmaguy.giphymvp.feature.trending;
 
 import com.emmaguy.giphymvp.common.base.BasePresenterTest;
 import com.emmaguy.giphymvp.feature.trending.api.Gif;
-import com.jakewharton.rxrelay.PublishRelay;
+import com.jakewharton.rxrelay2.PublishRelay;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +12,8 @@ import org.mockito.Mock;
 import java.util.Collections;
 import java.util.List;
 
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.inOrder;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class TrendingPresenterTest extends BasePresenterTest<TrendingPresenter, TrendingPresenter.View> {
-    private final PublishRelay<Void> refreshRelay = PublishRelay.create();
+    private final PublishRelay<Object> refreshRelay = PublishRelay.create();
     private final PublishRelay<Gif> gifClickedRelay = PublishRelay.create();
 
     @Mock private TrendingManager trendingManager;
@@ -30,7 +30,7 @@ public class TrendingPresenterTest extends BasePresenterTest<TrendingPresenter, 
     @Before
     public void setUp() throws Exception {
         List<Gif> gifs = Collections.singletonList(mock(Gif.class));
-        when(trendingManager.getTrendingGifs()).thenReturn(Observable.just(TrendingGifsModel.success(gifs)));
+        when(trendingManager.getTrendingGifs()).thenReturn(Single.just(TrendingGifsModel.success(gifs)));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class TrendingPresenterTest extends BasePresenterTest<TrendingPresenter, 
 
     @Test
     public void presenterOnViewAttached_failure_showError() throws Exception {
-        when(trendingManager.getTrendingGifs()).thenReturn(Observable.just(TrendingGifsModel.failure()));
+        when(trendingManager.getTrendingGifs()).thenReturn(Single.just(TrendingGifsModel.failure()));
         presenterOnViewAttached();
 
         verify(view).showError();
@@ -81,6 +81,6 @@ public class TrendingPresenterTest extends BasePresenterTest<TrendingPresenter, 
     public void onGifClicked_goToGif() throws Exception {
         presenterOnViewAttached();
 
-        gifClickedRelay.call(mock(Gif.class));
+        gifClickedRelay.accept(mock(Gif.class));
     }
 }

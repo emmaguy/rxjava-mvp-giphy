@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Single;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -34,22 +34,20 @@ public class TrendingManagerTest {
     public void getTrendingGifs_succeeds() throws Exception {
         List<Gif> gifs = Collections.singletonList(mock(Gif.class));
         TrendingGifsResponse response = TrendingGifsResponse.create(gifs);
-        when(giphyApi.latestTrendingGifs()).thenReturn(Observable.just(response));
+        when(giphyApi.latestTrendingGifs()).thenReturn(Single.just(response));
 
         networkManager.getTrendingGifs()
                 .test()
-                .assertCompleted()
                 .assertNoErrors()
                 .assertValue(TrendingGifsModel.success(gifs));
     }
 
     @Test
     public void getTrendingGifs_fails() throws Exception {
-        when(giphyApi.latestTrendingGifs()).thenReturn(Observable.error(new IOException()));
+        when(giphyApi.latestTrendingGifs()).thenReturn(Single.error(new IOException()));
 
         networkManager.getTrendingGifs()
                 .test()
-                .assertCompleted()
                 .assertValue(TrendingGifsModel.failure());
     }
 }
