@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.TrendingGifViewHolder> {
-    private final List<Gif> gifs = new ArrayList<>();
+    private final List<Gif> gifList = new ArrayList<>();
     private final PublishRelay<Gif> gifClickedRelay;
 
     TrendingAdapter(@NonNull final PublishRelay<Gif> gifClickedRelay) {
@@ -30,28 +30,26 @@ class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.TrendingGifVi
     @Override
     public TrendingGifViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new TrendingGifViewHolder(inflater.inflate(R.layout.item_trending_gif,
-                parent,
-                false));
+        return new TrendingGifViewHolder(inflater.inflate(R.layout.item_trending_gif, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final TrendingGifViewHolder holder, int position) {
-        final Gif gif = gifs.get(position);
+        Gif gif = gifList.get(position);
 
         Glide.with(holder.imageView.getContext())
                 .load(gif.downsizedImage())
-                .centerCrop()
                 .into(holder.imageView);
     }
 
-    @Override public int getItemCount() {
-        return gifs.size();
+    @Override
+    public int getItemCount() {
+        return gifList.size();
     }
 
     void setGifs(@NonNull final List<Gif> gifs) {
-        this.gifs.clear();
-        this.gifs.addAll(gifs);
+        this.gifList.clear();
+        this.gifList.addAll(gifs);
         notifyDataSetChanged();
     }
 
@@ -64,8 +62,9 @@ class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.TrendingGifVi
             ButterKnife.bind(this, itemView);
         }
 
-        @OnClick(R.id.item_trending_gif_imageview) void onGifClicked() {
-            gifClickedRelay.call(gifs.get(getAdapterPosition()));
+        @OnClick(R.id.item_trending_gif_imageview)
+        void onGifClicked() {
+            gifClickedRelay.call(gifList.get(getAdapterPosition()));
         }
     }
 }

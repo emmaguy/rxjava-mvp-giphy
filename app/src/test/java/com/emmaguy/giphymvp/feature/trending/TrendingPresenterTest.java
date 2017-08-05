@@ -18,8 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class TrendingPresenterTest
-        extends BasePresenterTest<TrendingPresenter, TrendingPresenter.View> {
+public class TrendingPresenterTest extends BasePresenterTest<TrendingPresenter, TrendingPresenter.View> {
     private final PublishRelay<List<Gif>> dataChangedRelay = PublishRelay.create();
     private final PublishRelay<LoadingState> loadingStateChangedRelay = PublishRelay.create();
     private final PublishRelay<Void> refreshRelay = PublishRelay.create();

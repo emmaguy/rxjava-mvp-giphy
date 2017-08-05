@@ -7,7 +7,7 @@ import org.junit.Before;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public abstract class BasePresenterTest<P extends BasePresenter<V>, V extends PresenterView> {
-    protected P presenter;
+    private P presenter;
     protected V view;
 
     @CallSuper @Before public void before() {

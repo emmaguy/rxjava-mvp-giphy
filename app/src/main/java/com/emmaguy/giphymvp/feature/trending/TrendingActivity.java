@@ -27,8 +27,7 @@ import butterknife.BindInt;
 import butterknife.BindView;
 import rx.Observable;
 
-public class TrendingActivity extends BaseActivity<TrendingPresenter.View, TrendingComponent>
-        implements TrendingPresenter.View {
+public class TrendingActivity extends BaseActivity<TrendingPresenter.View, TrendingComponent> implements TrendingPresenter.View {
     private final PublishRelay<Void> refreshRelay = PublishRelay.create();
     private final PublishRelay<Gif> gifClickedRelay = PublishRelay.create();
 

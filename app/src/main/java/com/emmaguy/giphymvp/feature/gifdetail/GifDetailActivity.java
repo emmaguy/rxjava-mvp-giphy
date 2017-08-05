@@ -15,8 +15,7 @@ import butterknife.BindView;
 
 import static com.emmaguy.giphymvp.feature.gifdetail.GifDetailModule.gifPresenter;
 
-public class GifDetailActivity extends BaseActivity<GifDetailPresenter.View, GifDetailComponent>
-        implements GifDetailPresenter.View {
+public class GifDetailActivity extends BaseActivity<GifDetailPresenter.View, GifDetailComponent> implements GifDetailPresenter.View {
     private static final String EXTRA_TRENDING_GIF = "trending_gif";
 
     @BindView(R.id.gif_imageview) ImageView gifImageView;
