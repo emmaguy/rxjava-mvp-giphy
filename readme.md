@@ -1,6 +1,6 @@
 # Giphy RxJava MVP
 
-A showcase of RxJava and Model View Presenter, plus a number of other popular libraries for android development, including AutoValue, Retrofit, Moshi, and ButterKnife. Unit tests covering any business logic and Robolectric tests verifying the ui. 
+A showcase of RxJava and Model View Presenter, plus a number of other popular libraries for Android development, including AutoValue, Retrofit, Moshi, and ButterKnife. Unit tested with Mockito covering any business logic. 
 
 The app is a simple master/detail implementation: we retrieve a list of gifs from the Giphy api and present them on the `TrendingActivity` in a `RecyclerView`. When a gif is clicked on, we load it in by itself in the `GifDetailActivity`.
  
@@ -21,7 +21,7 @@ This setup has a number of advantages over a non-MVP app architecture
  - the power of rxjava 
     - `Observable`s exposing future actions via the `View` interface, allowing our `Presenter`s to be entirely stateless
     - easy to do long running operations off the main thread
-    - in app code but also in the unit tests, e.g the excellent `TestScheduler`  
+        - in app code but also in the unit tests  
 
 ## Architecture
 
@@ -38,14 +38,10 @@ Each component consists of a `Presenter` class, a `View` interface which the cor
 The `View` interface enables the `Presenter` to be pure Java and not have to know about anything android:
 ```java
     interface View extends PresenterView {
-            Observable<Void> onRefreshAction();
+            Observable<Object> onRefreshAction();
 
-            void setTrendingGifs(List<Gif> gifs);
-            
             void showLoading();
             void hideLoading();
-            
-            void goToGif(Gif gif);
             ...
         }
 ```
@@ -56,7 +52,29 @@ The interface exposes:
     - each subscription is added to a `CompositeSubscription` via the method `unsubscribeOnViewDetach`, which will unsubscribe from all subscriptions when the view is detached
     - we limit what the `Presenter` is exposed to by using a return type of `Observable<Void>`, often it's enough just to know the action has happened
  - actions which immediately update the view with a simple operation e.g. show or hide a progress bar (method name will usually starts with `show`/`hide`), or methods which `set` data/state 
- - actions that start another Activity (prefixed with `goTo` e.g. `goToGif`)
+ - actions that start another Activity (prefixed with `open` e.g. `openGifDetail`)
+
+### Presenters
+
+Are responsible for presentation of whatever the view has (using a view interface), constrained by some business logic. 
+
+For example, `TrendingPresenter` can react to refreshes. The consequence of a refresh varies depending on whether we successfully retrieve gifs or not, we can either show the grid of gifs or an error. 
+
+While the view introduces two kinds of refresh, loading (a `ProgressBar` centered on screen as there's nothing else to see) and incremental loading (a swipe to refresh view), we have cheated slightly and just set both the loading and incremental loading to hidden after we refresh. The Giphy API does not support pagination, so this is not the place to try and demo incremental loading. We don't need to show incremental errors because we either have no data or some cached. In a real application, it's likely the cache is too stale to show anything useful, but this sample is not that complex!
+ 
+#### TrendingModel
+
+A class containing state, for the moment this is just whether we have some gifs, or whether there's been an error
+
+### Managers
+
+We only have one in this project, `TrendingManager`, which is responsible for managing the network and the cache. We hit the cache - if there's something in it, we go with that. If not, let's refresh and cache it.
+
+An advantage of this separation is that we are able to have unit tests covering the useful logic here - do we actually save gifs in storage when we successfully get some? Do we avoid the network when we use the cache?
+
+### Storage
+
+As you might expect, these classes just persist things. Here we only have `TrendingStorage` which is just an in memory cache of the last list of trending gifs we successfully received. No timestamp or concept of invalidation, just some gifs to show to the user.
 
 ## Dependency Injection
 

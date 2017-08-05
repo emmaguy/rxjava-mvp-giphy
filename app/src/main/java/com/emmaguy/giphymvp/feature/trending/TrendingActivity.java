@@ -106,7 +106,7 @@ public class TrendingActivity extends BaseActivity<TrendingPresenter.View, Trend
     }
 
     @Override
-    public void openGifScreen(Gif gif) {
+    public void openGifDetail(Gif gif) {
         GifDetailActivity.start(this, gif);
     }
 

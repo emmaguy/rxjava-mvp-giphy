@@ -42,7 +42,7 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
                     }
                 }, e -> Log.e("TrendingPresenter", "Failed to refresh", e)));
 
-        addToAutoUnsubscribe(view.onGifClicked().subscribe(view::openGifScreen));
+        addToAutoUnsubscribe(view.onGifClicked().subscribe(view::openGifDetail));
     }
 
     interface View extends PresenterView {
@@ -56,6 +56,6 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
         void showLoading();
         void hideLoading();
 
-        void openGifScreen(Gif gif);
+        void openGifDetail(Gif gif);
     }
 }

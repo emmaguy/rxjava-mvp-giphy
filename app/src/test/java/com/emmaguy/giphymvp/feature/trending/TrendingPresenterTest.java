@@ -78,9 +78,12 @@ public class TrendingPresenterTest extends BasePresenterTest<TrendingPresenter, 
     }
 
     @Test
-    public void onGifClicked_goToGif() throws Exception {
+    public void onGifClicked_openGifDetail() throws Exception {
+        Gif gif = mock(Gif.class);
         presenterOnViewAttached();
 
-        gifClickedRelay.accept(mock(Gif.class));
+        gifClickedRelay.accept(gif);
+
+        verify(view).openGifDetail(gif);
     }
 }
