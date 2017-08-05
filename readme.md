@@ -38,14 +38,14 @@ Each component consists of a `Presenter` class, a `View` interface which the cor
 The `View` interface enables the `Presenter` to be pure Java and not have to know about anything android:
 ```java
     interface View extends PresenterView {
-            @NonNull Observable<Void> onRefreshAction();
+            Observable<Void> onRefreshAction();
 
-            void setTrendingGifs(@NonNull final List<Gif> gifs);
+            void setTrendingGifs(List<Gif> gifs);
             
             void showLoading();
             void hideLoading();
             
-            void goToGif(@NonNull final Gif gif);
+            void goToGif(Gif gif);
             ...
         }
 ```
@@ -58,28 +58,9 @@ The interface exposes:
  - actions which immediately update the view with a simple operation e.g. show or hide a progress bar (method name will usually starts with `show`/`hide`), or methods which `set` data/state 
  - actions that start another Activity (prefixed with `goTo` e.g. `goToGif`)
 
-## Separating loading state from data availability 
-
-When we retrieve data from the network, we have to manage a number of states - loading, idle, error cases. Coupled to this, we also have a number of combinations of data - no data, initial data and later, incremental data. 
-
-The `TrendingNetworkManager` separately exposes to the presenter `Observable`s for both the loading state and the data itself. We can thus distinguish between the following states:
-
- - No data and loading => show a spinner over the entire `Activity`
- - No data and idle    => show full page empty state, explaining how to get data
- - No data and error   => show full page error message
- - Data and loading    => show incremental spinner (e.g. swipe to refresh or perhaps a progress bar animating under the action bar)
- - Data and idle       => display the data
- - Data and error      => display the data that we do have, and perhaps a `Toast` or `Snackbar` detailing what went wrong with the incremental load
- 
-Whilst this could all be managed by the `TrendingPresenter`, it is much more easily modeled separately. Using one rx chain we could perform both the showing of progress and the data at the same time, but updating the view then becomes a side effect and it very easily gets messy, particularly when edge cases are discovered.
-
-With them decoupled, the view expresses an action to refresh data, and the manager of that is responsible for emitting the progress state change. When the network request is complete, it can emit that it succeeded or failed alongside whatever data it managed to retrieve. 
-
-Note: the network manager could easily be extended to decide whether or not to even make the network request and retrieve from a cache instead.
-
 ## Dependency Injection
 
-This project does not use Dagger, instead it does the simple DI required manually.
+This project does not use Dagger, instead it provides the required classes manually.
 
 We instead create simple classes suffixed with `Module` that contain static factory methods that construct the required dependencies, and create interfaces suffixed `Component` which list the injectable items for each `feature`.
  
@@ -139,7 +120,7 @@ We separate the `createComponent` and `inject` steps as an easy way to support o
 
 # License
 
-    Copyright 2016 Emma Guy
+    Copyright 2016-2017 Emma Guy
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

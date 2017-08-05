@@ -7,7 +7,8 @@ import com.squareup.moshi.Moshi;
 
 import java.util.List;
 
-@AutoValue public abstract class TrendingGifsResponse {
+@AutoValue
+public abstract class TrendingGifsResponse {
     public static TrendingGifsResponse create(final List<Gif> gifs) {
         return new AutoValue_TrendingGifsResponse(gifs);
     }
@@ -16,5 +17,6 @@ import java.util.List;
         return new AutoValue_TrendingGifsResponse.MoshiJsonAdapter(moshi);
     }
 
-    @Json(name = "data") public abstract List<Gif> gifs();
+    @Json(name = "data")
+    public abstract List<Gif> gifs();
 }

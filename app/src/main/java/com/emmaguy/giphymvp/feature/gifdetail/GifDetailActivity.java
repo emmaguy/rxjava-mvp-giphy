@@ -22,33 +22,41 @@ public class GifDetailActivity extends BaseActivity<GifDetailPresenter.View, Gif
 
     private GifDetailPresenter presenter;
 
-    public static void start(@NonNull final Context context, @NonNull final Gif gif) {
+    public static void start(Context context, Gif gif) {
         final Intent intent = new Intent(context, GifDetailActivity.class);
         intent.putExtra(EXTRA_TRENDING_GIF, gif);
         context.startActivity(intent);
     }
 
-    @Override protected int getLayoutId() {
+    @Override
+    protected int getLayoutId() {
         return R.layout.activity_gif;
     }
 
-    @Override protected GifDetailComponent createComponent() {
+    @Override
+    protected GifDetailComponent createComponent() {
         return () -> gifPresenter(getIntent().getParcelableExtra(EXTRA_TRENDING_GIF));
     }
 
-    @Override protected void inject(@NonNull final GifDetailComponent component) {
+    @Override
+    protected void inject(GifDetailComponent component) {
         presenter = component.getPresenter();
     }
 
-    @NonNull @Override protected BasePresenter<GifDetailPresenter.View> getPresenter() {
+    @NonNull
+    @Override
+    protected BasePresenter<GifDetailPresenter.View> getPresenter() {
         return presenter;
     }
 
-    @NonNull @Override protected GifDetailPresenter.View getPresenterView() {
+    @NonNull
+    @Override
+    protected GifDetailPresenter.View getPresenterView() {
         return this;
     }
 
-    @Override public void showGif(@NonNull final Gif gif) {
+    @Override
+    public void showGif(Gif gif) {
         Glide.with(this).load(gif.downsizedGif()).into(gifImageView);
     }
 }

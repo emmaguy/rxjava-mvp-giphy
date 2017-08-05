@@ -8,7 +8,8 @@ import com.squareup.moshi.Moshi;
 
 import java.util.Map;
 
-@AutoValue public abstract class Gif implements Parcelable {
+@AutoValue
+public abstract class Gif implements Parcelable {
     public static JsonAdapter<Gif> typeAdapter(final Moshi moshi) {
         return new AutoValue_Gif.MoshiJsonAdapter(moshi);
     }

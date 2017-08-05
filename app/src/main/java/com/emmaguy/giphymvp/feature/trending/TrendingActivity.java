@@ -2,9 +2,7 @@ package com.emmaguy.giphymvp.feature.trending;
 
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,27 +40,33 @@ public class TrendingActivity extends BaseActivity<TrendingPresenter.View, Trend
     private TrendingPresenter presenter;
     private TrendingAdapter trendingAdapter;
 
-    @Override protected int getLayoutId() {
+    @Override
+    protected int getLayoutId() {
         return R.layout.activity_trending_gifs;
     }
 
-    @Override @NonNull protected TrendingComponent createComponent() {
+    @Override
+    protected TrendingComponent createComponent() {
         return TrendingModule::trendingGifsPresenter;
     }
 
-    @Override protected void inject(@NonNull final TrendingComponent component) {
+    @Override
+    protected void inject(TrendingComponent component) {
         presenter = component.getPresenter();
     }
 
-    @NonNull @Override protected BasePresenter<TrendingPresenter.View> getPresenter() {
+    @Override
+    protected BasePresenter<TrendingPresenter.View> getPresenter() {
         return presenter;
     }
 
-    @NonNull @Override protected TrendingPresenter.View getPresenterView() {
+    @Override
+    protected TrendingPresenter.View getPresenterView() {
         return this;
     }
 
-    @Override protected void onViewCreated(@Nullable final Bundle savedInstanceState) {
+    @Override
+    protected void onViewCreated(@Nullable final Bundle savedInstanceState) {
         trendingAdapter = new TrendingAdapter(gifClickedRelay);
 
         recyclerView.setHasFixedSize(true);
@@ -73,46 +77,39 @@ public class TrendingActivity extends BaseActivity<TrendingPresenter.View, Trend
         swipeRefreshLayout.setOnRefreshListener(() -> refreshRelay.call(null));
     }
 
-    @NonNull @Override public Observable<Gif> onGifClicked() {
+    @Override
+    public Observable<Gif> onGifClicked() {
         return gifClickedRelay;
     }
 
-    @NonNull @Override public Observable<Void> onRefreshAction() {
+    @Override
+    public Observable<Void> onRefreshAction() {
         return refreshRelay;
     }
 
-    @Override public void showEmpty() {
-        infoTextView.setText(R.string.trending_empty_state);
-        infoTextView.setVisibility(View.VISIBLE);
-    }
-
-    @Override public void showError() {
+    @Override
+    public void showError() {
         infoTextView.setText(R.string.trending_refresh_gifs_failed);
         infoTextView.setVisibility(View.VISIBLE);
     }
 
-    @Override public void showIncrementalError() {
-        Snackbar.make(rootViewGroup, R.string.trending_incremental_error, Snackbar.LENGTH_SHORT)
-                .show();
-    }
-
-    @Override public void showLoading() {
+    @Override
+    public void showLoading() {
         loadingProgressBar.setVisibility(View.VISIBLE);
     }
 
-    @Override public void hideLoading() {
+    @Override
+    public void hideLoading() {
         loadingProgressBar.setVisibility(View.GONE);
     }
 
-    @Override public void hideIncrementalLoading() {
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override public void goToGif(@NonNull final Gif gif) {
+    @Override
+    public void openGifScreen(Gif gif) {
         GifDetailActivity.start(this, gif);
     }
 
-    @Override public void setTrendingGifs(@NonNull final List<Gif> gifs) {
+    @Override
+    public void showTrendingGifs(List<Gif> gifs) {
         trendingAdapter.setGifs(gifs);
     }
 }

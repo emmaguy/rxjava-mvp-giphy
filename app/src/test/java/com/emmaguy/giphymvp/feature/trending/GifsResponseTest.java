@@ -29,11 +29,13 @@ public class GifsResponseTest {
     }
 
     @Test public void downsizedImage_usesDownsizedStillUrl() throws Exception {
-        assertThat(trendingGifsResponse.gifs().get(0).downsizedImage()).isEqualTo("http://media3.giphy.com/media/JIS3HjZexQJsk/200_s.gif");
+        assertThat(trendingGifsResponse.gifs().get(0).downsizedImage())
+                .isEqualTo("http://media3.giphy.com/media/JIS3HjZexQJsk/200_s.gif");
     }
 
     @Test public void downsizedGif_usesDownsizedStillUrl() throws Exception {
-        assertThat(trendingGifsResponse.gifs().get(0).downsizedGif()).isEqualTo("http://media3.giphy.com/media/JIS3HjZexQJsk/200_d.gif");
+        assertThat(trendingGifsResponse.gifs().get(0).downsizedGif())
+                .isEqualTo("http://media3.giphy.com/media/JIS3HjZexQJsk/200_d.gif");
     }
 
     private String loadResource(final String path) throws IOException {

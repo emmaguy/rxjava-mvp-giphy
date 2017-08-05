@@ -15,13 +15,13 @@ class TrendingModule {
 
     static TrendingPresenter trendingGifsPresenter() {
         if (presenter == null) {
-            presenter = new TrendingPresenter(trendingGifManager(), AndroidSchedulers.mainThread());
+            presenter = new TrendingPresenter(trendingGifManager(), AndroidSchedulers.mainThread(), Schedulers.io());
         }
         return presenter;
     }
 
-    private static TrendingNetworkManager trendingGifManager() {
-        return new TrendingNetworkManager(giphyApi(), Schedulers.io());
+    private static TrendingManager trendingGifManager() {
+        return new TrendingManager(giphyApi());
     }
 
     private static GiphyApi giphyApi() {
