@@ -2,7 +2,6 @@ package com.emmaguy.giphymvp.feature.gifdetail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -43,13 +42,11 @@ public class GifDetailActivity extends BaseActivity<GifDetailPresenter.View, Gif
         presenter = component.getPresenter();
     }
 
-    @NonNull
     @Override
     protected BasePresenter<GifDetailPresenter.View> getPresenter() {
         return presenter;
     }
 
-    @NonNull
     @Override
     protected GifDetailPresenter.View getPresenterView() {
         return this;

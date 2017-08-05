@@ -70,26 +70,9 @@ class TrendingModule {
     private static TrendingPresenter presenter;
 
     static TrendingPresenter trendingGifsPresenter() {
-        if (presenter == null) {
-            presenter = new TrendingPresenter(trendingGifManager(), AndroidSchedulers.mainThread());
-        }
-        return presenter;
+        return  new TrendingPresenter(trendingGifManager(), AndroidSchedulers.mainThread());
     }
-
-    private static TrendingNetworkManager trendingGifManager() {
-        return new TrendingNetworkManager(giphyApi(), Schedulers.io());
-    }
-
-    private static GiphyApi giphyApi() {
-        final Moshi moshi = new Moshi.Builder().add(new AutoValueMoshiAdapterFactory()).build();
-
-        final Retrofit retrofit = new Retrofit.Builder().baseUrl("http://api.giphy.com/")
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .build();
-
-        return retrofit.create(GiphyApi.class);
-    }
+    ....
 }
 
 ```
@@ -97,7 +80,7 @@ class TrendingModule {
 Example Component:
 ```java
 interface TrendingComponent extends BaseComponent {
-    @NonNull TrendingPresenter getPresenter();
+    TrendingPresenter getPresenter();
 }
 ```
  
@@ -115,7 +98,7 @@ Then, when the dependencies are needed, we can create the required components us
 }
 ```
 
-We separate the `createComponent` and `inject` steps as an easy way to support orientation change - the first time we call both `create` and `inject`, any subsequent times we need to inject we can just call `inject` and we can reuse the classes - which means we have an in memory cache of data from our network requests (held in the `Presenter`) for free.
+We separate the `createComponent` and `inject` steps as an easy way to support orientation change - the first time we call both `create` and `inject`, any subsequent times we need to inject we can just call `inject` and we can reuse the classes - which means we use our memory cache of data from our network requests (held in `TrendingStorage`) rather than hit the network again.
  
 
 # License

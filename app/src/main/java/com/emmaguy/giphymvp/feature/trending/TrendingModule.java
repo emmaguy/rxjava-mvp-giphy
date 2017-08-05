@@ -11,18 +11,22 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 class TrendingModule {
-    private static TrendingPresenter presenter;
+    private static TrendingStorage trendingStorage;
 
     static TrendingPresenter trendingGifsPresenter() {
-        if (presenter == null) {
-            presenter = new TrendingPresenter(trendingGifManager(), AndroidSchedulers.mainThread(),
-                    Schedulers.io());
-        }
-        return presenter;
+        return new TrendingPresenter(trendingGifManager(), AndroidSchedulers.mainThread(),
+                Schedulers.io());
     }
 
     private static TrendingManager trendingGifManager() {
-        return new TrendingManager(giphyApi());
+        return new TrendingManager(giphyApi(), trendingStorage());
+    }
+
+    private static TrendingStorage trendingStorage() {
+        if (trendingStorage == null) {
+            trendingStorage = new TrendingStorage();
+        }
+        return trendingStorage;
     }
 
     private static GiphyApi giphyApi() {

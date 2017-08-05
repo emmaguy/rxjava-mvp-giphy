@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import java.util.Collections;
 import java.util.List;
 
-import io.reactivex.Single;
+import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,7 +30,7 @@ public class TrendingPresenterTest extends BasePresenterTest<TrendingPresenter, 
     @Before
     public void setUp() throws Exception {
         List<Gif> gifs = Collections.singletonList(mock(Gif.class));
-        when(trendingManager.getTrendingGifs()).thenReturn(Single.just(TrendingGifsModel.success(gifs)));
+        when(trendingManager.getTrendingGifs()).thenReturn(Observable.just(TrendingModel.success(gifs)));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class TrendingPresenterTest extends BasePresenterTest<TrendingPresenter, 
 
     @Test
     public void presenterOnViewAttached_failure_showError() throws Exception {
-        when(trendingManager.getTrendingGifs()).thenReturn(Single.just(TrendingGifsModel.failure()));
+        when(trendingManager.getTrendingGifs()).thenReturn(Observable.just(TrendingModel.failure()));
         presenterOnViewAttached();
 
         verify(view).showError();

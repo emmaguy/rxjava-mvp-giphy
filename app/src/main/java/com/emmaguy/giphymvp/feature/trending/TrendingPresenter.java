@@ -30,7 +30,7 @@ class TrendingPresenter extends BasePresenter<TrendingPresenter.View> {
         addToAutoUnsubscribe(view.onRefreshAction()
                 .startWith(Event.IGNORE)
                 .doOnNext(ignored -> view.showLoading())
-                .flatMapSingle(ignored -> trendingManager.getTrendingGifs()
+                .switchMap(ignored -> trendingManager.getTrendingGifs()
                         .subscribeOn(ioScheduler))
                 .observeOn(uiScheduler)
                 .doOnNext(ignored -> view.hideLoading())

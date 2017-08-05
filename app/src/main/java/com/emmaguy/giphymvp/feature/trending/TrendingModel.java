@@ -8,19 +8,19 @@ import com.google.auto.value.AutoValue;
 import java.util.List;
 
 @AutoValue
-abstract class TrendingGifsModel {
+abstract class TrendingModel {
     @Nullable abstract List<Gif> gifs();
     abstract boolean success();
 
-    private static TrendingGifsModel create(List<Gif> gifs, boolean success) {
-        return new AutoValue_TrendingGifsModel(gifs, success);
+    private static TrendingModel create(List<Gif> gifs, boolean success) {
+        return new AutoValue_TrendingModel(gifs, success);
     }
 
-    static TrendingGifsModel success(List<Gif> gifs) {
+    static TrendingModel success(List<Gif> gifs) {
         return create(gifs, true);
     }
 
-    static TrendingGifsModel failure() {
+    static TrendingModel failure() {
         return create(null, false);
     }
 }
